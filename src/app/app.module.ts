@@ -31,7 +31,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
       {path: 'blog/:blogId',component:BlogViewComponent},
       {path: 'create',component:BlogCreateComponent},
       {path: 'edit/:blogId', component:BlogEditComponent},
-      {path: ' " " ',component:NotFoundComponent}
+      {path: ' * * ',component:NotFoundComponent}
     
     
 
