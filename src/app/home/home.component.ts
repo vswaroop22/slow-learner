@@ -1,6 +1,7 @@
 //this is a bydefault
-import { Component, OnInit } from '@angular/core';
-
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { BlogService } from '../blog.service';
+import { BlogHttpService } from '../blog-http.service';
 
 //decorators(all with @)
 @Component({
@@ -10,53 +11,36 @@ import { Component, OnInit } from '@angular/core';
 })
 
 // a simple class
-export class HomeComponent implements OnInit {
-
-  //Declare a dummy blog variable here
-  public allBlogs = [
-    {
-      "blogId": "1",
-      "lastmodified": "2019-12-05",
-      "created": "2019-12-04",
-      "tags": [],
-      "author": "Admin",
-      "category": "comedy",
-      "isPublished": true,
-      "views": 0,
-      "bodyhtml": "this is blog body",
-      "description": "this is blog 1 description",
-      "title": "this is blog 1"
-    },
-    {
-      "blogId": "2",
-      "lastmodified": "2019-12-03",
-      "created": "2019-12-02",
-      "tags": [],
-      "author": "Admin",
-      "category": "comedy",
-      "isPublished": true,
-      "views": 0,
-      "bodyhtml": "<h1>this is blog body</h1> <p>small text</p>",
-      "description": "this is blog 2 description",
-      "title": "this is blog 2 example"
-    },
-    {
-      "blogId": "3",
-      "lastmodified": "2019-12-04",
-      "created": "2019-12-01",
-      "tags": [],
-      "author": "Admin",
-      "category": "comedy",
-      "isPublished": true,
-      "views": 0,
-      "bodyhtml": "this is blog body. this is si si si",
-      "description": "this is blog 3rd description",
-      "title": "this is blog 3"
-    }
-  ]
-  constructor() { }
+export class HomeComponent implements OnInit,OnDestroy {
+  
+public allBlogs= [];
+ 
+  constructor(public blogHttpService:BlogHttpService) {
+    console.log("Home component constructor is called")
+   }
 
   ngOnInit() {
+    console.log("ngOnInit is called");
+    this.allBlogs = this.blogHttpService.getAllBlogs().subscribe(
+
+      data => {
+        console.log("logging data");
+        console.log(data);
+
+        this.allBlogs = data["data"];
+      },
+      error => {
+        console.log("some error occured");
+        console.log(error.errorMessage)
+      }
+)
+    console.log(this.allBlogs);
+   }
+  
+  ngOnDestroy(){
+    console.log("destroy is called")
+
+
   }
 
 }
